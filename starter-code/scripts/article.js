@@ -1,5 +1,4 @@
 'use strict';
-
 function Article (rawDataObj) {
   this.author = rawDataObj.author;
   this.authorUrl = rawDataObj.authorUrl;

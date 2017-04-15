@@ -37,7 +37,6 @@ Article.loadAll = function(rawData) {
   rawData.sort(function(a,b) {
     return (new Date(b.publishedOn)) - (new Date(a.publishedOn));
   });
-
   rawData.forEach(function(ele) {
     Article.all.push(new Article(ele));
   })
@@ -47,10 +46,11 @@ Article.loadAll = function(rawData) {
 // and process it, then hand off control to the View.
 Article.fetchAll = function() {
   if (localStorage.rawData) {
+    Article.loadAll(JSON.parse(localStorage.rawData));
     // When rawData is already in localStorage,
     // we can load it with the .loadAll function above,
     // and then render the index page (using the proper method on the articleView object).
-    Article.loadAll(); //TODO: What do we pass in to loadAll()?
+    articleView.initIndexPage(); //TODO: What do we pass in to loadAll()?
     //TODO: What method do we call to render the index page?
   } else {
     // TODO: When we don't already have the rawData,
@@ -58,5 +58,14 @@ Article.fetchAll = function() {
     // cache it in localStorage so we can skip the server call next time,
     // then load all the data into Article.all with the .loadAll function above,
     // and then render the index page.
+    $(() => {
+      $.ajax({
+        url: '/data/hackerIpsum.json'
+      }).done(function(data){
+        localStorage.setItem('rawData', JSON.stringify(data));
+        Article.loadAll(JSON.parse(localStorage.rawData));
+        articleView.initIndexPage();
+      })
+    })
   }
 }

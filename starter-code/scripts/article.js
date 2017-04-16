@@ -55,7 +55,7 @@ Article.fetchAll = function() {
     // then load all the data into Article.all with the .loadAll function above,
     // and then render the index page.
     $(()=> {
-      $.ajax({url: '/starter-code/data/hackerIpsum.json'})
+      $.ajax({url: '/data/hackerIpsum.json'})
       .done(function(data) {
         localStorage.setItem('rawData', JSON.stringify(data));
         Article.loadAll(JSON.parse(localStorage.rawData));
